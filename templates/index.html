@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <title>Silent Bridge Ai - Sinhala</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(135deg, #0a0a23 0%, #1a0033 50%, #33001a 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+        h1 {
+            margin: 0 0 24px 0;
+            font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+            font-size: 3em;
+            letter-spacing: 2px;
+            color: #ff99cc;
+            background: linear-gradient(90deg, #4f8cff 0%, #ff99cc 50%, #ff3366 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 24px #1a0033, 0 0px 32px #33001a;
+            text-align: center;
+        }
+        .container {
+            background: rgba(34, 0, 51, 0.85);
+            border-radius: 24px;
+            box-shadow: 0 6px 36px rgba(0,0,0,0.4);
+            padding: 36px 52px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .dropdown-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 18px;
+            width: 100%;
+        }
+        .dropdown-label {
+            font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+            color: #ffe6fa;
+            font-size: 1.15em;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px #33001a;
+        }
+        .custom-select {
+            background: linear-gradient(90deg, #4f8cff 0%, #ff99cc 100%);
+            color: #1a0033;
+            border: none;
+            border-radius: 26px;
+            padding: 12px 28px;
+            font-size: 1.2em;
+            font-family: 'Orbitron', 'Segoe UI', Arial, sans-serif;
+            font-weight: 700;
+            box-shadow: 0 2px 14px rgba(79,140,255,0.22);
+            opacity: 0.92;
+            transition: opacity 0.2s, box-shadow 0.2s;
+            outline: none;
+            cursor: pointer;
+        }
+        .custom-select:hover, .custom-select:focus {
+            opacity: 1;
+            box-shadow: 0 4px 28px rgba(255,51,102,0.22);
+        }
+        .custom-select option {
+            background: #1a0033;
+            color: #ffe6fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 1em;
+        }
+        video {
+            border-radius: 16px;
+            border: 3px solid #4f8cff;
+            box-shadow: 0 4px 16px rgba(79,140,255,0.3);
+            margin-bottom: 18px;
+            background: #000;
+            width: 320px;
+            height: 320px;
+        }
+        #result {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-top: 12px;
+            min-height: 1.5em;
+            text-align: center;
+            color: #ffe6fa;
+            background: linear-gradient(90deg, #4f8cff 0%, #ff99cc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 16px #1a0033, 0 0px 24px #33001a;
+        }
+        .spinner {
+            border: 5px solid #222;
+            border-top: 5px solid #4f8cff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg);}
+            100% { transform: rotate(360deg);}
+        }
+        .footer {
+            margin-top: 24px;
+            color: #bfa3d1;
+            font-size: 1.1em;
+            text-shadow: 0 2px 8px #33001a;
+            text-align: center;
+        }
+        .glass-link {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 100;
+            text-decoration: none;
+        }
+        .glass-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 18px;
+            box-shadow: 0 2px 14px rgba(79,140,255,0.2);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, box-shadow 0.2s;
+            opacity: 0.85;
+        }
+        .glass-link:hover .glass-icon {
+            background: rgba(255,255,255,0.22);
+            box-shadow: 0 4px 28px rgba(255,51,102,0.2);
+            opacity: 1;
+        }
+        .glass-icon svg {
+            width: 36px;
+            height: 36px;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://sign-language-bot.mystrikingly.com/" class="glass-link" target="_blank" title="Visit Silent Bridge Ai Website">
+        <span class="glass-icon">
+            <svg viewBox="0 0 24 24">
+                <defs>
+                    <linearGradient id="glassGradient" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#4f8cff"/>
+                        <stop offset="100%" stop-color="#ff99cc"/>
+                    </linearGradient>
+                </defs>
+                <path d="M3 11.5L12 4l9 7.5" stroke="url(#glassGradient)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="7" y="12" width="10" height="7" rx="2" stroke="url(#glassGradient)" stroke-width="2" fill="none"/>
+            </svg>
+        </span>
+    </a>
+    
+    <h1>Silent Bridge Ai</h1>
+    
+    <div class="container">
+        <!-- Language Selection Dropdown -->
+        <div class="dropdown-wrapper">
+            <label for="languageSelect" class="dropdown-label">Select Language</label>
+            <select id="languageSelect" class="custom-select">
+                <option value="si" selected>Sinhala</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+
+        <!-- Camera Selection Dropdown -->
+        <div class="dropdown-wrapper">
+            <label for="cameraSelect" class="dropdown-label">Choose Camera</label>
+            <select id="cameraSelect" class="custom-select"></select>
+        </div>
+
+        <video id="video" autoplay></video>
+        <div class="spinner" id="spinner"></div>
+        <div id="result">Initializing...</div>
+    </div>
+    
+    <div class="footer">
+        &copy; 2026 Silent Bridge Ai. All rights reserved.
+    </div>
+
+    <script>
+        const video = document.getElementById('video');
+        const result = document.getElementById('result');
+        const spinner = document.getElementById('spinner');
+        const cameraSelect = document.getElementById('cameraSelect');
+        const languageSelect = document.getElementById('languageSelect');
+        let currentStream = null;
+        let isFlipped = false;
+        let predictionStarted = false;
+
+        // Redirect to English site when English is chosen
+        languageSelect.onchange = () => {
+            const selectedLang = languageSelect.value;
+            if (selectedLang === 'en') {
+                window.location.href = "https://silent-bridge-ai.onrender.com/"; 
+            }
+        };
+
+        async function getCameras() {
+            try {
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+                cameraSelect.innerHTML = '';
+                
+                videoDevices.forEach((device, idx) => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId;
+                    option.text = device.label || `Camera ${idx + 1}`;
+                    cameraSelect.appendChild(option);
+                });
+            } catch (e) {
+                console.error("Error enumerating devices:", e);
+            }
+        }
+
+        async function startCamera(deviceId) {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+            }
+            try {
+                const constraints = {
+                    video: { deviceId: deviceId ? { exact: deviceId } : undefined }
+                };
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+                currentStream = stream;
+                result.textContent = "Ready!";
+                
+                await video.play().catch(() => {});
+            } catch (e) {
+                console.error("Webcam error: ", e);
+                result.textContent = "Webcam access denied or unavailable.";
+            }
+        }
+
+        cameraSelect.onchange = () => {
+            startCamera(cameraSelect.value);
+        };
+
+        async function init() {
+            try {
+                const initialStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                currentStream = initialStream;
+                video.srcObject = initialStream;
+
+                await getCameras();
+
+                const tracks = initialStream.getVideoTracks();
+                if (tracks.length > 0) {
+                    const activeTrackSettings = tracks[0].getSettings();
+                    if (activeTrackSettings.deviceId) {
+                        cameraSelect.value = activeTrackSettings.deviceId;
+                    }
+                }
+
+                result.textContent = "Ready!";
+            } catch (e) {
+                console.error(e);
+                result.textContent = "Webcam access denied. Please allow camera permissions.";
+            }
+        }
+
+        navigator.mediaDevices.addEventListener('devicechange', getCameras);
+
+        // High-frequency frame capture loop
+        async function sendFrame() {
+            if (!video.videoWidth || !video.videoHeight) {
+                setTimeout(sendFrame, 50); // Retry shortly if video isn't ready
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = 224;
+            canvas.height = 224;
+            const ctx = canvas.getContext('2d');
+            if (isFlipped) {
+                ctx.translate(canvas.width, 0);
+                ctx.scale(-1, 1);
+            }
+            ctx.drawImage(video, 0, 0, 224, 224);
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8); // 0.8 quality reduces payload size for faster network transfer
+            const base64 = dataUrl.split(',')[1];
+
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: base64 })
+                });
+                const json = await response.json();
+                
+                let displayText = json.class;
+                if (displayText === "No") {
+                    displayText = "No Signs Detected";
+                }
+
+                result.textContent = `${displayText} (${json.confidence.toFixed(2)})`;
+            } catch (e) {
+                result.textContent = 'Prediction error';
+            }
+            
+            // Immediately loop to the next frame with a small interval (e.g., 30ms or 0ms for max speed)
+            setTimeout(sendFrame, 30); 
+        }
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            await init();
+            video.onplaying = () => {
+                if (!predictionStarted) {
+                    predictionStarted = true;
+                    sendFrame();
+                }
+            };
+            if (video.readyState >= 2 && !predictionStarted) {
+                predictionStarted = true;
+                sendFrame();
+            }
+        });
+    </script>
+</body>
+</html>
