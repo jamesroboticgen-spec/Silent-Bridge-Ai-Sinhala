@@ -281,10 +281,10 @@
 
         navigator.mediaDevices.addEventListener('devicechange', getCameras);
 
-        // High-frequency frame capture loop
+        // Maximum-frequency continuous translation loop
         async function sendFrame() {
             if (!video.videoWidth || !video.videoHeight) {
-                setTimeout(sendFrame, 50); // Retry shortly if video isn't ready
+                setTimeout(sendFrame, 10);
                 return;
             }
 
@@ -297,7 +297,7 @@
                 ctx.scale(-1, 1);
             }
             ctx.drawImage(video, 0, 0, 224, 224);
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.8); // 0.8 quality reduces payload size for faster network transfer
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
             const base64 = dataUrl.split(',')[1];
 
             try {
@@ -318,8 +318,8 @@
                 result.textContent = 'Prediction error';
             }
             
-            // Immediately loop to the next frame with a small interval (e.g., 30ms or 0ms for max speed)
-            setTimeout(sendFrame, 30); 
+            // Fires back-to-back immediately for maximum frame throughput
+            setTimeout(sendFrame, 0); 
         }
 
         window.addEventListener('DOMContentLoaded', async () => {
