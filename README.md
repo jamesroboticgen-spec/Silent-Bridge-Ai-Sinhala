@@ -11,7 +11,7 @@ license: apache-2.0
 short_description: This app uses a custom machine learning model to detect sign
 ---
 
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+Check out the configuration reference at https://silent-bridge-ai.onrender.com/
 "" 
 # Silent Bridge Ai
 
