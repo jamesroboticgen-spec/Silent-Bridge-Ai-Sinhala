@@ -11,7 +11,7 @@ license: apache-2.0
 short_description: This app uses a custom machine learning model to detect sign
 ---
 
-Check out the configuration reference at https://silent-bridge-ai.onrender.com/
+Check out the configuration reference at https://silent-bridge-ai-sinhala.onrender.com/
 "" 
 # Silent Bridge Ai
 
